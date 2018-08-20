@@ -3,7 +3,7 @@
 #include <time.h>
 #include <string.h>
 
-int		robot();
+int	robot();
 int 	winner();
 int 	best_move(int player,int position);
 void	draw();
@@ -19,7 +19,7 @@ int	main(){
 	printf("press any key to start");
 	getchar();  
 	show_numbers=0;
-	while(1){
+	do{
 		
 
 		int	i,position=-1;
@@ -44,17 +44,10 @@ int	main(){
 			
 		}
 		draw();
-		if(winner())
-			printf("%s Won !\n\n",player==1?"You":"Computer");
-		else
-		printf("No one won\n");
+		printf("%s Won !\n\n",winner()?player==1?"You":"Computer":"no one");
 
-		if(!restart())
-			break;
-	}
+	}while(restart());
 }
-
-
 
 
 int winner(){
@@ -89,7 +82,7 @@ int best_move(int player,int position){
 	}
 	return position;
 }
-int		robot(){
+int robot(){
 
 		int arr[10],i,ln=0;
 		for(i=0;i<9;i++)
