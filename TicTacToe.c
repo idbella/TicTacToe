@@ -16,7 +16,7 @@ int		odds[8][3]={
 					};
 int	main(){
 	draw();
-	printf("press any key to start");
+	printf("Press Enter to start");
 	getchar();  
 	show_numbers=0;
 	do{
