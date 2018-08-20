@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include<conio.h>
+
 int		robot();
 int 	winner();
 int 	best_move(int player,int position);
@@ -17,23 +17,21 @@ int		odds[8][3]={
 int	main(){
 	draw();
 	printf("press any key to start");
-	getch();
+	getchar();  
 	show_numbers=0;
 	while(1){
 		
 
-		int	i,position=0;
+		int	i,position=-1;
 		for	(i =0;i<9;i++)
 		{
 			if 	(player==1){
-				tryAgain:;
-				printf("Enter cell number : ");
-				scanf("%d",&position);
-				if(position<0||position>9||grid[position-1]>0){
-					draw();
-					printf("not allowed\n");
-					goto tryAgain;
-				}
+					printf("Enter cell number : ");
+					while(scanf("%d",&position) != 1||position<0||position>9||grid[position-1]>0){
+						draw();
+				        printf("not allowed\nEnter cell number : ");
+				        while(getchar() != '\n');
+				    }
 			}else
 				position = robot();
 
@@ -74,18 +72,18 @@ int winner(){
 int best_move(int player,int position){
 	int i;
 	for (i = 0; i < 8; ++i){
-		int r0 = grid[odds[i][0]],
-			r1 = grid[odds[i][1]],
-			r2 = grid[odds[i][2]];
-		int win1 = r0==player;
-		int win2 = r1==player;
-		if (r0==r1&&r1&&!r2)
+		int row0 = grid[odds[i][0]],
+			row1 = grid[odds[i][1]],
+			row2 = grid[odds[i][2]];
+		int win1 = row0==player;
+		int win2 = row1==player;
+		if (row0==row1&&row1&&!row2)
 			if(player==1||win1)
 				return odds[i][2];
-		 if (r0==r2&&r0&&!r1)
+		 if (row0==row2&&row0&&!row1)
 		 	if(player==1||win1)
 				return odds[i][1];
-		 if (r1==r2&&r1&&!r0)
+		 if (row1==row2&&row1&&!row0)
 		 	if(player==1||win2)
 				return odds[i][0];
 	}
@@ -100,7 +98,7 @@ int		robot(){
 		time_t t;
 		srand((unsigned) time(&t));
 		int position = arr[rand() % ln];  // Get a Random empty cell number
-		position = best_move(1,position); // checking for winning cell
+		position = best_move(1,position); // checking for a winning cell
 		position = best_move(2,position); // if there is a chance to win just ignore all and win 
 		return position+1;
 }
