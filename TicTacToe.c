@@ -124,7 +124,7 @@ void draw(){
 		system("clear");
 	#endif
 
-	printf("\n   Tic Tac Toe \nComputer : X \nYou      : O");
+	printf("Computer : X \nYou      : O");
 	int i;
 	printf("\n_____________\n");
 	for(i=0;i<9;){
