@@ -2,21 +2,26 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-
-int	robot();
+#include<conio.h>
+int		robot();
 int 	winner();
 int 	best_move(int player,int position);
 void	draw();
 int 	restart();
 
-int	tbl[9],player=2;
-int	odds[8][3]=	{ 	
-			{0,1,2},{3,4,5},{6,7,8},{0,3,6},
-			{1,4,7},{2,5,8},{0,4,8},{2,4,6} 
-			};
-
+int		grid[9],player=2,show_numbers=1;
+int		odds[8][3]={ 	
+						{0,1,2},{3,4,5},{6,7,8},{0,3,6},
+						{1,4,7},{2,5,8},{0,4,8},{2,4,6} 
+					};
 int	main(){
+	draw();
+	printf("press any key to start");
+	getch();
+	show_numbers=0;
 	while(1){
+		
+
 		int	i,position=0;
 		for	(i =0;i<9;i++)
 		{
@@ -24,7 +29,7 @@ int	main(){
 				tryAgain:;
 				printf("Enter cell number : ");
 				scanf("%d",&position);
-				if(position<0||position>9||tbl[position-1]>0){
+				if(position<0||position>9||grid[position-1]>0){
 					draw();
 					printf("not allowed\n");
 					goto tryAgain;
@@ -32,7 +37,7 @@ int	main(){
 			}else
 				position = robot();
 
-			tbl[position-1]=player;
+			grid[position-1]=player;
 			
 			if(winner())
 				break;
@@ -57,9 +62,9 @@ int	main(){
 int winner(){
 	int i;
 	for (i = 0; i < 8; ++i){
-		int r0 = tbl[odds[i][0]],
-			r1 = tbl[odds[i][1]],
-			r2 = tbl[odds[i][2]];
+		int r0 = grid[odds[i][0]],
+			r1 = grid[odds[i][1]],
+			r2 = grid[odds[i][2]];
 		if (r0==r1&&r0==r2&&r0==player)
 			return 1;
 	}
@@ -69,9 +74,9 @@ int winner(){
 int best_move(int player,int position){
 	int i;
 	for (i = 0; i < 8; ++i){
-		int r0 = tbl[odds[i][0]],
-			r1 = tbl[odds[i][1]],
-			r2 = tbl[odds[i][2]];
+		int r0 = grid[odds[i][0]],
+			r1 = grid[odds[i][1]],
+			r2 = grid[odds[i][2]];
 		int win1 = r0==player;
 		int win2 = r1==player;
 		if (r0==r1&&r1&&!r2)
@@ -86,24 +91,24 @@ int best_move(int player,int position){
 	}
 	return position;
 }
-int robot(){
+int		robot(){
 
-	int arr[10],i,ln=0;
-	for(i=0;i<9;i++)
-		if(!tbl[i])
-			arr[ln++]=i;
-	time_t t;
-	srand((unsigned) time(&t));
-	int position = arr[rand() % ln];  // Get a Random empty cell number
-	position = best_move(1,position); // checking for winning cell
-	position = best_move(2,position); // if there is a chance to win just ignore all and win 
-	return position+1;
+		int arr[10],i,ln=0;
+		for(i=0;i<9;i++)
+			if(!grid[i])
+				arr[ln++]=i;
+		time_t t;
+		srand((unsigned) time(&t));
+		int position = arr[rand() % ln];  // Get a Random empty cell number
+		position = best_move(1,position); // checking for winning cell
+		position = best_move(2,position); // if there is a chance to win just ignore all and win 
+		return position+1;
 }
 
 int restart(){
 	int i;
 	for (i = 0; i < 9; ++i)
-		tbl[i]=0;
+		grid[i]=0;
 	printf("Would you like to play again? (Y/N)\n");
 	char again[1];
 	player=2;
@@ -118,14 +123,18 @@ void draw(){
 	#ifdef linux
 		system("clear");
 	#endif
-	printf("Computer : X \nYou      : O");
+
+	printf("\n   Tic Tac Toe \nComputer : X \nYou      : O");
 	int i;
 	printf("\n_____________\n");
 	for(i=0;i<9;){
 		int o = i+3;
 		printf("|");
 		for(i=i;i<o;){
-			printf(" %s |", tbl[i]>0?tbl[i]==2?"X":"O":" ");
+			if(show_numbers)
+				printf(" %d |", i+1);
+			else
+				printf(" %s |", grid[i]>0?grid[i]==2?"X":"O":" ");
 			i++;
 		}
 		printf("\n|___|___|___|\n");
