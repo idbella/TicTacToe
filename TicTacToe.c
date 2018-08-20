@@ -3,17 +3,17 @@
 #include <time.h>
 #include <string.h>
 
-int		robot();
+int	robot();
 int 	winner();
 int 	best_move(int player,int position);
 void	draw();
 int 	restart();
 
-int		tbl[9],player=2;
-int		odds[8][3]={ 	
-						{0,1,2},{3,4,5},{6,7,8},{0,3,6},
-						{1,4,7},{2,5,8},{0,4,8},{2,4,6} 
-					};
+int	tbl[9],player=2;
+int	odds[8][3]=	{ 	
+			{0,1,2},{3,4,5},{6,7,8},{0,3,6},
+			{1,4,7},{2,5,8},{0,4,8},{2,4,6} 
+			};
 
 int	main(){
 	while(1){
@@ -86,18 +86,18 @@ int best_move(int player,int position){
 	}
 	return position;
 }
-int		robot(){
+int robot(){
 
-		int arr[10],i,ln=0;
-		for(i=0;i<9;i++)
-			if(!tbl[i])
-				arr[ln++]=i;
-		time_t t;
-		srand((unsigned) time(&t));
-		int position = arr[rand() % ln];  // Get a Random empty cell number
-		position = best_move(1,position); // checking for winning cell
-		position = best_move(2,position); // if there is a chance to win just ignore all and win 
-		return position+1;
+	int arr[10],i,ln=0;
+	for(i=0;i<9;i++)
+		if(!tbl[i])
+			arr[ln++]=i;
+	time_t t;
+	srand((unsigned) time(&t));
+	int position = arr[rand() % ln];  // Get a Random empty cell number
+	position = best_move(1,position); // checking for winning cell
+	position = best_move(2,position); // if there is a chance to win just ignore all and win 
+	return position+1;
 }
 
 int restart(){
